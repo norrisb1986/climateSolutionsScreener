@@ -14,6 +14,7 @@ function initialize_table () {
 
   var myTable = $('#climateScreener').DataTable();
   // Add filters for each field
+  // Category Filter
   myTable.search.fixed('category', function (searchStr, data, index) {
     var category = $('#category-select').val().toString();
     // if category is empty, return all rows
@@ -33,6 +34,7 @@ function initialize_table () {
       return false; // no match
     }
   });
+  // Project Drawdown Sector Filter 
   myTable.search.fixed('project_drawdown_sector', function (searchStr, data, index) {
     var category = $('#drawdown-sector-select').val().toString();
     // if category is empty, return all rows
@@ -52,6 +54,7 @@ function initialize_table () {
       return false; // no match
     }
   });
+  // GCR Scenario 1 slider filter
   myTable.search.fixed('gcr-scenario-1', function (searchStr, data, index) {
     var slider = $('#gcr-scenario-1').data("ionRangeSlider");
     var min = slider.result.from;
@@ -69,6 +72,7 @@ function initialize_table () {
 
   return false;
   });
+  
   const category_options = [];
   const drawdown_sector_options = [];
   const gcr_scenario_1_options = {min: 1000, max: 0};
