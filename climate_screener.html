@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Climate Solutions Screener</title>
+        <style>html { height: 100%; }</style>
+        <link rel="stylesheet" href="css/dataTables.css" />
+        <link rel="stylesheet" href="css/ion.rangeSlider.min.css" />
+        <script src="js/jquery.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+            integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+            integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="js/dataTables.min.js"></script>
+        <script src="js/ion.rangeSlider.js"></script>
+        <script src="js/climate_screener.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            $(document).ready( function () {
+                initialize_table();
+            });
+
+        </script>
+    </head>
+    <body>
+        <div id="filters">
+            <div class="filter-item"><label>Category</label><select nmme="category" id="category-select" multiple></select></div>
+            <div class="filter-item"><label>Project Drawdown Sector</label><select name="project_drawdown_sector" id="drawdown-sector-select" multiple></select></div>
+            <div class="filter-item">
+                <label>Global Carbon Reduction Potential (2020-2050), Scenario 1 (GtCO2-eq)</label>
+                <input type="text" name="gcr_scenario_1" class="gcr-scenario-1-slider" id="gcr-scenario-1"  value=""/>
+            </div>
+        </div>
+        <table id="climateScreener" class="display">
+        </table>
+    </body>
+</html>
