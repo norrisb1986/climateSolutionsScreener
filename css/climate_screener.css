@@ -1,0 +1,60 @@
+body {
+    margin:0px;
+}
+div#top-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+div#search {
+    display:flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+div#filters {
+    display:flex;
+    width: 800px;
+    justify-content: space-around;
+
+}
+
+div#filters .filter-item {
+    flex-grow: 1;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+div#filters .filter-item label {
+    margin-bottom:2px;
+}
+
+div#sliders {
+    display: flex;
+    width:100%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+div#sliders .filter-item {
+    margin: 8px;
+    width: 250px;
+}
+
+
+div#climate-screener {
+    margin-left:20px;
+    margin-right:20px;
+}
+/* index.html specific styles */
+
+div#buttons {
+    display:flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+/* climate_screeener.html specific styles */

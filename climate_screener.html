@@ -4,6 +4,7 @@
         <style>html { height: 100%; }</style>
         <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" />
         <link rel="stylesheet" href="css/ion.rangeSlider.min.css" />
+        <link rel="stylesheet" href="css/climate_screener.css" />
         <script src="js/jquery.js"></script>
         <link
             rel="stylesheet"
@@ -30,17 +31,23 @@
         </script>
     </head>
     <body>
-        <div id="filters">
-            <div class="filter-item"><label>Category</label><select name="category" id="category-select" multiple></select></div>
-            <div class="filter-item"><label>Project Drawdown Sector</label><select name="project_drawdown_sector" id="drawdown-sector-select" multiple></select></div>
-            <div class="filter-item"><label>Realm</label><select name="realm" id="realm-select" multiple></select></div>
+        <div id="search">
+            <div id="filters">
+                <div class="filter-item"><label>Category</label><select name="category" id="category-select" multiple></select></div>
+                <div class="filter-item"><label>Project Drawdown Sector</label><select name="project_drawdown_sector" id="drawdown-sector-select" multiple></select></div>
+                <div class="filter-item"><label>Realm</label><select name="realm" id="realm-select" multiple></select></div>
+            </div>
+        </div>
+        <div id="sliders">
             <div class="filter-item">
                 <label>Global Carbon Reduction Potential (2020-2050), Scenario 1 (GtCO2-eq)</label>
                 <input type="text" name="gcr_scenario_1" class="gcr-scenario-1-slider" id="gcr-scenario-1"  value=""/>
                 
             </div>
         </div>
-        <table id="climateScreener" class="display">
-        </table>
+        <div id="climate-screener">
+            <table id="climateScreener" class="display">
+            </table>
+        </div>
     </body>
 </html>

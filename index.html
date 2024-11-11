@@ -2,6 +2,7 @@
     <head>
         <title>Climate Solutions Screener</title>
         <style>html { height: 100%; }</style>
+        <link rel="stylesheet" href="css/climate_screener.css" />
         <script src="js/jquery.js"></script>
         <link
             rel="stylesheet"
@@ -30,13 +31,17 @@
         <div id="top-image"> 
             <image src="images/climate_top.png" alt="Climate Change"></image>
         </div>
-        <div id="filters">
-            <form method="GETT" action="climate_screener.html">
-                <div class="filter-item"><label>Category</label><select name="category" id="category-select" multiple></select></div>
-                <div class="filter-item"><label>Project Drawdown Sector</label><select name="project_drawdown_sector" id="drawdown-sector-select" multiple></select></div>
-                <div class="filter-item"><label>Realm</label><select name="realm" id="realm-select" multiple></select></div>
+        <form method="GET" action="climate_screener.html">
+            <div id="search">
+                <div id="filters">
+                    <div class="filter-item"><label>Category</label><select name="category" id="category-select" multiple></select></div>
+                    <div class="filter-item"><label>Project Drawdown Sector</label><select name="project_drawdown_sector" id="drawdown-sector-select" multiple></select></div>
+                    <div class="filter-item"><label>Realm</label><select name="realm" id="realm-select" multiple></select></div>
+                </div>
+            </div>
+            <div id="buttons">
                 <button type="submit">Submit</button>
-            </form>
-        </div>
+            </div>
+        </form>
     </body>
 </html>
