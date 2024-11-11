@@ -27,10 +27,14 @@
         </script>
     </head>
     <body>
+        <div id="top-image"> 
+            <image src="images/climate_top.png" alt="Climate Change"></image>
+        </div>
         <div id="filters">
             <form method="GETT" action="climate_screener.html">
                 <div class="filter-item"><label>Category</label><select name="category" id="category-select" multiple></select></div>
                 <div class="filter-item"><label>Project Drawdown Sector</label><select name="project_drawdown_sector" id="drawdown-sector-select" multiple></select></div>
+                <div class="filter-item"><label>Realm</label><select name="realm" id="realm-select" multiple></select></div>
                 <button type="submit">Submit</button>
             </form>
         </div>
