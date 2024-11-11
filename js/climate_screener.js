@@ -4,18 +4,27 @@ function initialize_table (search_only) {
   var climate_data = load_data();
   if ( !search_only ) {
     $('#climateScreener').DataTable({
-        data: climate_data,
-        columns: [
-            {data: 'climate_solution', title: 'Climate Solution'},
-            {data: 'description', title: 'Description', visible:false},
-            {data: 'category', title: 'Category'},
-            {data: 'realm', title: 'Realm'},
-            {data: 'project_drawdown_sector', title:  'Project Drawdown Sector'},
-            {data: 'gcr_scenario_1', title:"Global Carbon Reduction Potential (2020-2050), Scenario 1 (GtCO2-eq)", visible:false}
-        ]
+      data: climate_data,
+      columns: [
+          {data: 'climate_solution', title: 'Climate Solution'},
+          {data: 'description', title: 'Description', visible:false},
+          {data: 'category', title: 'Category'},
+          {data: 'realm', title: 'Realm'},
+          {data: 'project_drawdown_sector', title:  'Project Drawdown Sector'},
+          {data: 'gcr_scenario_1', title:"Global Carbon Reduction Potential (2020-2050), Scenario 1 (GtCO2-eq)", visible:false}
+      ]
     });
 
     var myTable = $('#climateScreener').DataTable();
+    // add onclick to open detail modal
+    myTable.on('click', 'tbody tr', function () {
+      let data = myTable.row(this).data();
+      var detail = build_detail_data(data);
+      $("#detail-modal-data").html(detail);
+      $("#detail-modal").modal({
+        fadeDuration: 100
+      });
+  });
     // Add filters for each field
     // Category Filter
     myTable.search.fixed('category', function (searchStr, data, index) {
@@ -174,6 +183,41 @@ function initialize_table (search_only) {
   }
 }
 
+function build_detail_data(data) {
+  var titles = {
+    "climate_solution": "Climate Solutions",
+    "description": "Description",
+    "category": "Category (ChatGPT)",
+    "project_drawdown_sector": "Project Drawdown Sector",
+    "ream": "Realm",
+    "climate_solution_dimension": "Climate Solution Dimension",
+    "is_drawdown": "Project Drawdown?",
+    "gcr_scenario_1": "Global Carbon Reduction Potential (2020-2050), Scenario 1 (GtCO2-eq)",
+    "gcr_scenario_2": "Global Carbon Reduction Potential (2020-2050), Scenario 2 (GtCO2-eq)",
+    "min_lifetime_cost": "Approximate Minimum Net Lifetime Costs (USD/t CO2-eq, Current Costs)",
+    "max_lifetime_cost": "Approximate Maximum Net Lifetime Costs (USD/t CO2-eq, Current Costs)",
+    "current_avg_lifetime_cost": "Average Net Lifetime Costs (USD/t CO2-eq, Current Costs)",
+    "projected_avg_lifetime_costs": "Average Net Lifetime Costs (USD/t CO2-eq, Projected 2050 Costs)",
+    "global_investment_to_date": "Global Investment Thus Far (million USD)",
+    "scalabiity_index": "Scalability Index (0-10)",
+    "ecological_co_benefit_index": "Ecological Co-Benefits Index (0-10)",
+    "socio_economic_co_benefit_index": "Socio-Economic Co-Benefits Index (0-10)",
+    "cultural_co_benefit_index": "Cultural Co-Benefits Index (0-10)",
+    "geopolitical_co_benefit": "Geopolitical Co-Benefits Index (0-10)",
+    "advers_ecological_impacts_index": "Adverse Ecological Impacts Index (0-10)",
+    "adverse_socio_economic_impact_index": "Adverse Socio-Economic Impacts Index (0-10)",
+    "adverse_cultural_impact_index": "Adverse Cultural Impacts Index (0-10)",
+    "project_name": "Example Project Name",
+    "project_url": "Example Project URL",
+    "company_name": "Example Company Name",
+    "company_url": "Example Company URL"
+  };
+  var rows = '';
+  for (const [title_key, data_value] of Object.entries(data)) {
+    rows += '<tr><td>'+titles[title_key]+'</td><td>'+data_value+'</td></tr>';
+  }
+  return '<table id="details-table">'+rows+'</table>';
+}
 function load_data () {
     return [
       {

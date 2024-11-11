@@ -49,6 +49,10 @@ div#climate-screener {
     margin-left:20px;
     margin-right:20px;
 }
+
+div#detail-modal {
+    max-width:800px;
+}
 /* index.html specific styles */
 
 div#buttons {
