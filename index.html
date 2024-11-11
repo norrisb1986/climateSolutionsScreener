@@ -2,26 +2,37 @@
     <head>
         <title>Climate Solutions Screener</title>
         <style>html { height: 100%; }</style>
-<!--Plugin CSS file with desired skin-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
-    
-<!--jQuery-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="js/jquery.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+            integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+            integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="js/climate_screener.js" type="text/javascript"></script>
+        <script type="text/javascript">
 
-<!--Plugin JavaScript file-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+            $(document).ready( function () {
+                var search_only = true;
+                initialize_table(search_only);
+            });
 
-
+        </script>
     </head>
     <body>
-        <input id="demo_0" type="text" name="" value="" class="irs-hidden-input" tabindex="-1" readonly="">
-        <script type="text/javascript">
-            $("#demo_0").ionRangeSlider({
-                skin: "big",
-                min: 100,
-                max: 1000,
-                from: 550
-            });
-        </script>
+        <div id="filters">
+            <form method="GETT" action="climate_screener.html">
+                <div class="filter-item"><label>Category</label><select name="category" id="category-select" multiple></select></div>
+                <div class="filter-item"><label>Project Drawdown Sector</label><select name="project_drawdown_sector" id="drawdown-sector-select" multiple></select></div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </body>
 </html>

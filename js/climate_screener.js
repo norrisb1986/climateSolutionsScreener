@@ -1,78 +1,81 @@
-function initialize_table () {
+function initialize_table (search_only) {
   // Load Data from climate screener
+
   var climate_data = load_data();
-  $('#climateScreener').DataTable({
-      data: climate_data,
-      columns: [
-          {data: 'climate_solution', title: 'Climate Solution'},
-          {data: 'description', title: 'Description', visible:false},
-          {data: 'category', title: 'Category'},
-          {data: 'project_drawdown_sector', title:  'Project Drawdown Sector'},
-          {data: 'gcr_scenario_1', title:"Global Carbon Reduction Potential (2020-2050), Scenario 1 (GtCO2-eq)"}
-      ]
-  });
+  if ( !search_only ) {
+    $('#climateScreener').DataTable({
+        data: climate_data,
+        columns: [
+            {data: 'climate_solution', title: 'Climate Solution'},
+            {data: 'description', title: 'Description', visible:false},
+            {data: 'category', title: 'Category'},
+            {data: 'project_drawdown_sector', title:  'Project Drawdown Sector'},
+            {data: 'gcr_scenario_1', title:"Global Carbon Reduction Potential (2020-2050), Scenario 1 (GtCO2-eq)"}
+        ]
+    });
 
-  var myTable = $('#climateScreener').DataTable();
-  // Add filters for each field
-  // Category Filter
-  myTable.search.fixed('category', function (searchStr, data, index) {
-    var category = $('#category-select').val().toString();
-    // if category is empty, return all rows
-    if ( category == "") {
-      return true;
-    } 
-    else {  
-      // split on columns
-      var categories = category.split(",");
-      for (var single_category of categories ) {
-        // Check the data with index that corresponds with category column
-        if ( single_category == data["category"] ) {
-          // if you get a match return true, effectivley giving us an OR for multi select
-          return true;
+    var myTable = $('#climateScreener').DataTable();
+    // Add filters for each field
+    // Category Filter
+    myTable.search.fixed('category', function (searchStr, data, index) {
+      var category = $('#category-select').val().toString();
+      // if category is empty, return all rows
+      if ( category == "") {
+        return true;
+      } 
+      else {  
+        // split on columns
+        var categories = category.split(",");
+        for (var single_category of categories ) {
+          // Check the data with index that corresponds with category column
+          if ( single_category == data["category"] ) {
+            // if you get a match return true, effectivley giving us an OR for multi select
+            return true;
+          }
         }
+        return false; // no match
       }
-      return false; // no match
-    }
-  });
-  // Project Drawdown Sector Filter 
-  myTable.search.fixed('project_drawdown_sector', function (searchStr, data, index) {
-    var category = $('#drawdown-sector-select').val().toString();
-    // if category is empty, return all rows
-    if ( category == "") {
-      return true;
-    } 
-    else {  
-      // split on columns
-      var categories = category.split(",");
-      for (var single_category of categories ) {
-        // Check the data with index that corresponds with category column
-        if ( single_category == data["project_drawdown_sector"] ) {
-          // if you get a match return true, effectivley giving us an OR for multi select
-          return true;
+    });
+    // Project Drawdown Sector Filter 
+    myTable.search.fixed('project_drawdown_sector', function (searchStr, data, index) {
+      var category = $('#drawdown-sector-select').val().toString();
+      // if category is empty, return all rows
+      if ( category == "") {
+        return true;
+      } 
+      else {  
+        // split on columns
+        var categories = category.split(",");
+        for (var single_category of categories ) {
+          // Check the data with index that corresponds with category column
+          if ( single_category == data["project_drawdown_sector"] ) {
+            // if you get a match return true, effectivley giving us an OR for multi select
+            return true;
+          }
         }
+        return false; // no match
       }
-      return false; // no match
-    }
-  });
-  // GCR Scenario 1 slider filter
-  myTable.search.fixed('gcr-scenario-1', function (searchStr, data, index) {
-    var slider = $('#gcr-scenario-1').data("ionRangeSlider");
-    var min = slider.result.from;
-    var max = slider.result.to;
-    var row_value = data["gcr_scenario_1"] 
-   
-    if (
-      (isNaN(min) && isNaN(max)) ||
-      (isNaN(min) && age <= max) ||
-      (min <= row_value && isNaN(max)) ||
-      (min <= row_value && row_value <= max)
-    ) {
-      return true;
-    }
+    });
+    // GCR Scenario 1 slider filter
+    myTable.search.fixed('gcr-scenario-1', function (searchStr, data, index) {
+      var slider = $('#gcr-scenario-1').data("ionRangeSlider");
+      var min = slider.result.from;
+      var max = slider.result.to;
+      var row_value = data["gcr_scenario_1"] 
+    
+      if (
+        (isNaN(min) && isNaN(max)) ||
+        (isNaN(min) && age <= max) ||
+        (min <= row_value && isNaN(max)) ||
+        (min <= row_value && row_value <= max)
+      ) {
+        return true;
+      }
 
-  return false;
-  });
-  
+    return false;
+    });
+  } // endif search_only
+
   const category_options = [];
   const drawdown_sector_options = [];
   const gcr_scenario_1_options = {min: 1000, max: 0};
@@ -89,17 +92,20 @@ function initialize_table () {
       }
   }
 
+  // Get URL params
+  var params = new URLSearchParams(location.search);
+
   // create selectors and add them to datatables filter              
   $('#category-select').selectize({
       valueField: "id",
       labelField: "name",
       searchField: ["name"],
       options: category_options,
+      items: params.getAll('category'),
       onChange: function (value) { 
-        
-        //var table_api = $('#climateScreener').dataTable().api();      
-        //table_api.columns(2).search(value ? '^' + value + '$' : '', true, false);
-        $('#climateScreener').DataTable().draw();
+        if ( $('#climateScreener').length ) {
+          $('#climateScreener').DataTable().draw();
+        }
       }
   });
   $('#drawdown-sector-select').selectize({
@@ -107,29 +113,30 @@ function initialize_table () {
     labelField: "name",
     searchField: ["name"],
     options: drawdown_sector_options,
+    items: params.getAll('project_drawdown_sector'),
     onChange: function (value) { 
-
-      // var table_api = $('#climateScreener').dataTable().api();      
-      // table_api.columns(3).search('"Buildings" "Industry"', {smart:true}).draw();
-      $('#climateScreener').DataTable().draw();
+      // skip if the table doesn't exits
+      if ( $('#climateScreener').length ) {
+        $('#climateScreener').DataTable().draw();
+      }
     }
   });
- 
-  // Slider initialization
-  $("#gcr-scenario-1").ionRangeSlider({
-    skin: "big",
-    type: "double",
-    min: gcr_scenario_1_options['min'],
-    max: gcr_scenario_1_options['max'],
-    from: gcr_scenario_1_options['min'],
-    to: gcr_scenario_1_options['max'],
-    step: 0.5,
-    onFinish: function (value) { 
-      $('#climateScreener').DataTable().draw();
-    }
-  });
-
-  //TODO
+  if ( !search_only ) {
+    // Slider initialization
+    $("#gcr-scenario-1").ionRangeSlider({
+      skin: "big",
+      type: "double",
+      min: gcr_scenario_1_options['min'],
+      max: gcr_scenario_1_options['max'],
+      from: gcr_scenario_1_options['min'],
+      to: gcr_scenario_1_options['max'],
+      step: 0.5,
+      onFinish: function (value) { 
+        $('#climateScreener').DataTable().draw();
+      }
+    });
+    myTable.draw();
+  }
 }
 
 function load_data () {
