@@ -32,6 +32,7 @@ div#filters .filter-item label {
 
 div#sliders {
     display: flex;
+    flex-wrap: wrap;
     width:100%;
     margin-top: 20px;
     margin-bottom: 50px;
